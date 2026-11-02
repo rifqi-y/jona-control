@@ -105,10 +105,12 @@ constexpr float JOINT_LIMIT_NEG[NUM_JOINTS] = {
 // 6) KECEPATAN DEFAULT (half-period pulsa dalam microsecond)
 // ===========================================================================
 // Lebih kecil = lebih cepat. Minimum aman ~100 us.
-// Untuk testing awal, mulai konservatif (300 us).
+// 150/125/150/150/150/150 us = kecepatan yang sudah terbukti aman di arm ini
+// (firmware lama, Jona web app). Jangan di bawah ~100 us.
+// Kalau driver Phobot (JONA_JOINTS di packages/robot) dipakai, samakan nilainya.
 
 constexpr uint32_t JOINT_DEFAULT_HALF_PERIOD_US[NUM_JOINTS] = {
-    300, 300, 300, 250, 250, 250
+    150, 125, 150, 150, 150, 150
 };
 
 // ===========================================================================
