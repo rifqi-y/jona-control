@@ -32,15 +32,17 @@ constexpr int NUM_JOINTS = 6;
 //   motors[4] = S34_12  (NEMA 34,  12.0  Nm)
 //   motors[5] = S34_12_1(NEMA 34,  12.0  Nm)
 //
-// Mapping default: motor terkuat di joint paling base (torsi terbesar).
+// Mapping DIUKUR di arm fisik (tes "M:<motor>:3000" satu per satu, dilihat langsung):
+//   M4 -> j1 base, M5 -> j2 bahu, M3 -> j3 siku, M0 -> j4, M2 -> j6.
+//   M1 tidak menggerakkan apa pun saat dites -> j5 diisi M1 dengan eliminasi (BELUM TERBUKTI).
 
 constexpr int JOINT_TO_MOTOR[NUM_JOINTS] = {
-    5,   // J0 base       -> M5 (12 Nm)
-    4,   // J1 shoulder   -> M4 (12 Nm)
+    4,   // J0 base       -> M4 (12 Nm)
+    5,   // J1 shoulder   -> M5 (12 Nm)
     3,   // J2 elbow      -> M3 (8.5 Nm)
     0,   // J3 wrist roll -> M0 (3 Nm)
-    2,   // J4 wrist pitch-> M2 (0.7 Nm)
-    1    // J5 wrist yaw  -> M1 (0.42 Nm)
+    1,   // J4 wrist pitch-> M1 (0.42 Nm)  <-- motor ini diam saat dites, cek driver/kabel
+    2    // J5 wrist yaw  -> M2 (0.7 Nm)
 };
 
 // ===========================================================================
