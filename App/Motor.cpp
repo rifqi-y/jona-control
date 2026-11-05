@@ -1,4 +1,5 @@
 #include "Motor.h"
+#include <cmath>
 #include <cstdlib>
 
 // ==========================================
@@ -34,8 +35,12 @@ void StepperMotor::service() {
         long done = labs(currentPosition - rampStart);
         long left = labs(targetPosition - currentPosition);
         long edge = done < left ? done : left;
-        if (edge < rampLen)
-            period = (uint32_t)(halfPeriodMicros * (1.0f + (RAMP_SLOW_MULT - 1.0f) * (1.0f - edge / rampLen)));
+        if (edge < rampLen) {
+            // Akselerasi konstan: v^2 linear terhadap posisi, mulai dari cruise / RAMP_SLOW_MULT.
+            const float v0 = 1.0f / (RAMP_SLOW_MULT * RAMP_SLOW_MULT);
+            float v = sqrtf(v0 + (1.0f - v0) * ((float)edge / rampLen));
+            period = (uint32_t)(halfPeriodMicros / v);
+        }
     }
 
     uint32_t now = micros();

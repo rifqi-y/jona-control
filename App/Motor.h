@@ -9,7 +9,9 @@ uint32_t micros(void);
 // Ramp akselerasi/deselerasi: bagian awal & akhir tiap gerakan dilambatkan.
 // RAMP_FRACTION = porsi total step per sisi (0 = matikan ramp).
 // RAMP_SLOW_MULT = periode saat step pertama/terakhir = kecepatan cruise x ini.
-constexpr float RAMP_FRACTION  = 0.20f;
+// Profil ramp = akselerasi konstan. Total waktu gerak ~1.05x waktu cruise;
+// kalau nilai di sini diubah, samakan RAMP_TIME_FACTOR di driver Phobot (packages/robot).
+constexpr float RAMP_FRACTION  = 0.05f;
 constexpr float RAMP_SLOW_MULT = 3.0f;
 
 class StepperMotor {

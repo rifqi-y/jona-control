@@ -110,13 +110,18 @@ void Robot::applyCoordinatedMotion(const float targets_deg[NUM_JOINTS]) {
     if (max_delta == 0) return;  // sudah di posisi target
 
     // 2) Scale halfPeriodMicros tiap motor agar semua selesai bersamaan.
-    //    Motor dengan delta terbesar pakai kecepatan asli (paling cepat).
-    //    Motor dengan delta lebih kecil di-perlambat proporsional.
+    //    Joint dengan waktu tempuh terlama pakai kecepatan asli (paling cepat).
+    //    Joint lain di-perlambat agar waktu tempuhnya sama.
+    float max_time = 0.0f;
+    for (int j = 0; j < NUM_JOINTS; j++) {
+        float t = (float)abs_delta[j] * (float)JOINT_DEFAULT_HALF_PERIOD_US[j];
+        if (t > max_time) max_time = t;
+    }
+
     for (int j = 0; j < NUM_JOINTS; j++) {
         int m = JOINT_TO_MOTOR[j];
         if (abs_delta[j] > 0) {
-            float scale = (float)max_delta / (float)abs_delta[j];
-            uint32_t period = (uint32_t)(JOINT_DEFAULT_HALF_PERIOD_US[j] * scale);
+            uint32_t period = (uint32_t)(max_time / (float)abs_delta[j]);
             // Clamp minimum agar tidak terlalu cepat
             if (period < 100) period = 100;
             motors[m].halfPeriodMicros = period;
