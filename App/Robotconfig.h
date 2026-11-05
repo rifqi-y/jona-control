@@ -108,11 +108,12 @@ constexpr float JOINT_LIMIT_NEG[NUM_JOINTS] = {
 // ===========================================================================
 // Lebih kecil = lebih cepat. Minimum aman ~100 us.
 // 150/125/150/150/150/150 us = kecepatan yang sudah terbukti aman di arm ini
-// (firmware lama, Jona web app). Jangan di bawah ~100 us.
+// (firmware lama, Jona web app). 100/100/100/150/150/150 us masih dalam tahap uji.
+// Jangan di bawah ~100 us.
 // Kalau driver Phobot (JONA_JOINTS di packages/robot) dipakai, samakan nilainya.
 
 constexpr uint32_t JOINT_DEFAULT_HALF_PERIOD_US[NUM_JOINTS] = {
-    150, 125, 150, 150, 150, 150
+    100, 100, 100, 150, 150, 150
 };
 
 // ===========================================================================
